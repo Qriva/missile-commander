@@ -12,15 +12,15 @@ TagManager:
   - Water
   - UI
   - 
+  - Destructible
   - 
   - 
-  - 
-  - Projectile
-  - 
-  - 
+  - Player Projectile
+  - Enemy Projectile
   - 
   - 
-  - 
+  - Player Explosion
+  - Enemy Explosion
   - 
   - 
   - 
