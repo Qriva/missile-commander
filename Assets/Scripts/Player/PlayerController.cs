@@ -83,6 +83,31 @@ namespace Game
         }
 
         /// <summary>
+        /// Registers MissileLauncher
+        /// </summary>
+        public void AddMissileLauncher(MissileLauncher launcher)
+        {
+            missileLaunchers.Add(launcher);
+            launcher.health.OnDeath += HandleMissileLauncherDestruction;
+        }
+
+        private void HandleMissileLauncherDestruction(DeathEvent e)
+        {
+            Health target = e.target;
+            // Remove launcher by health
+            for (int i = 0; i < missileLaunchers.Count; i++)
+            {
+                MissileLauncher m = missileLaunchers[i];
+                if (m.health == target)
+                {
+                    // Remove launcher and early exit
+                    missileLaunchers.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Tries to find closest ready to fire launcher for given position
         /// </summary>
         /// <returns>MissileLauncher ready to fire or null</returns>

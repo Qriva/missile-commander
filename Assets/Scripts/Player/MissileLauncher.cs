@@ -29,6 +29,19 @@ namespace Game
         /// </summary>
         public Vector3 SpawnPosition => spawner.SpawnPosition;
 
+        private void Awake()
+        {
+            if (health == null)
+            {
+                Debug.LogError("Reference to Health is missing,", this.gameObject);
+            }
+            else
+            {
+                // Lambda should be GC along with this component
+                health.OnDeath += (DeathEvent e) => { Destroy(this.gameObject); };
+            }
+        }
+
         private void OnValidate()
         {
             if (!Application.isPlaying)

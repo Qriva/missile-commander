@@ -94,11 +94,8 @@ namespace Game
                 // Return damage event
                 DamageEvent.ReturnInstance(damageEvent);
             }
-            else
-            {
-                // Something was hit, kill projectile
-                Expire();
-            }
+            // Something was hit, kill projectile
+            Expire();
         }
 
         /// <summary>
