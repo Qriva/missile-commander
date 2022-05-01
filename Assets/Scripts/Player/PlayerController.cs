@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,15 @@ namespace Game
         [SerializeField] private Transform crosshairPrefab;
         [Tooltip("Game main camera")]
         [SerializeField] private Camera cam;
+        [Tooltip("Missile launchers under control of player")]
+        [SerializeField] private List<MissileLauncher> missileLaunchers;
         private Transform crosshair;
         private Vector2 crosshairScreenPosition;
         private Vector2 crosshairMoveDelta;
-        // FIXME: Temporary
-        public ProjectileSpawner launcher;
+        /// <summary>
+        /// True when fire action should be performed
+        /// </summary>
+        private bool fireEnabled = false;
 
         void OnEnable()
         {
@@ -60,6 +65,49 @@ namespace Game
                 // NOTE: Target point must be updated early, so other systems don't lag
                 crosshair.transform.position = ray.GetPoint(distance);
             }
+
+            // Shot missile if fire action is enabled and there are any launchers
+            if (fireEnabled && missileLaunchers.Count > 0)
+            {
+                // Find the closest and ready silo to target position
+                MissileLauncher launcher = FindLauncher(crosshair.position);
+                if (launcher != null)
+                {
+                    // Set fire action to false to mark it as "used"
+                    // Resolving OnFire in update allows player to fire missile when it's ready
+                    // This way gives way better feedback
+                    fireEnabled = false;
+                    launcher.Fire(crosshair.position);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tries to find closest ready to fire launcher for given position
+        /// </summary>
+        /// <returns>MissileLauncher ready to fire or null</returns>
+        private MissileLauncher FindLauncher(Vector3 position)
+        {
+            MissileLauncher closest = null;
+            float closestSqrDistance = Mathf.Infinity;
+            // Find the closest silo to target position
+            for (int i = 0; i < missileLaunchers.Count; i++)
+            {
+                MissileLauncher missileLauncher = missileLaunchers[i];
+                // Skip if not ready
+                if (!missileLauncher.IsReadyToFire)
+                {
+                    continue;
+                }
+                // Squared magnitude to compare distances
+                float sqrMagnitude = (position - missileLauncher.SpawnPosition).sqrMagnitude;
+                if (sqrMagnitude < closestSqrDistance)
+                {
+                    closestSqrDistance = sqrMagnitude;
+                    closest = missileLauncher;
+                }
+            }
+            return closest;
         }
 
         public void OnAim(InputAction.CallbackContext context)
@@ -76,11 +124,11 @@ namespace Game
         {
             if (context.performed)
             {
-                launcher.Fire(crosshair.position);
+                fireEnabled = true;
             }
             else if (context.canceled)
             {
-                // Debug.Log("Fire canceled");
+                fireEnabled = false;
             }
         }
     }
