@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 902721190644341567}
   - component: {fileID: 902721190644341560}
   m_Layer: 14
-  m_Name: Player Projectile Explosion
+  m_Name: Player Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  size: 5
+  size: 3
   damage: 10
   duration: 1
   inversedDuration: 1
