@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4879722310389946602}
   - component: {fileID: 6347795690989685379}
   - component: {fileID: 398391968147494704}
-  m_Layer: 0
-  m_Name: Projectile
+  - component: {fileID: 1770669366031290662}
+  m_Layer: 10
+  m_Name: Player Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1728413981664572487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1313147637560773873}
@@ -68,7 +69,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -91,6 +92,34 @@ MonoBehaviour:
   mask: {fileID: 11400000, guid: 49a356a6e2190c14da7c56005474ec97, type: 2}
   delayDestruction: 0
   delay: 5
+  onExpire:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1770669366031290662}
+        m_TargetAssemblyTypeName: Game.ExplosionSpawner, Assembly-CSharp
+        m_MethodName: SpawnExplosion
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1770669366031290662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728413981664572487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2426e717644ff847907adde9924d1f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosion: {fileID: 902721190644341560, guid: 818026a4d5d443d43add7f957eab75a1, type: 3}
 --- !u!1 &4145697473630440003
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1313147637560773873}
   - component: {fileID: 5785224728316518245}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +194,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5613208, g: 0.87649953, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
