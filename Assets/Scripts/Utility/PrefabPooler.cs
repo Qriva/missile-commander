@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class PrefabPooler : Singleton<ProjectilePooler>
+    public class PrefabPooler : Singleton<PrefabPooler>
     {
         // NOTE: Can be converted to property exposed in inspector
         public const int MIN_STACK_CAPACITY = 16;
