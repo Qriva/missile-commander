@@ -17,6 +17,8 @@ namespace Game
         private Transform crosshair;
         private Vector2 crosshairScreenPosition;
         private Vector2 crosshairMoveDelta;
+        // FIXME: Temporary
+        public ProjectileSpawner launcher;
 
         void OnEnable()
         {
@@ -74,7 +76,7 @@ namespace Game
         {
             if (context.performed)
             {
-                Debug.Log("FIRE");
+                launcher.Fire(crosshair.position);
             }
             else if (context.canceled)
             {
