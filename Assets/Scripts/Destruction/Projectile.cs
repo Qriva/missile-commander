@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Game
 {
@@ -10,16 +11,21 @@ namespace Game
     [RequireComponent(typeof(Collider2D))]
     public class Projectile : MonoBehaviour, IPoolable
     {
+        [System.Serializable]
+        public class ExpireEvent : UnityEvent<Projectile> {}
+        
         #region Inspector
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private Collider2D _collider;
-        [SerializeField] private float damage = 100f;
+        public float damage = 100f;
         [Tooltip("Lifetime in seconds")]
         [SerializeField] private float lifetime = float.PositiveInfinity;
         [Tooltip("Interaction mask determines what objects can be hit")]
         [SerializeField] private InteractionMask mask;
         [SerializeField] private bool delayDestruction = false;
         [SerializeField] private Yields.Instruction delay = Yields.Instruction.WaitForOneSecond;
+        [Space]
+        public ExpireEvent onExpire;
         #endregion
 
         private float age;
@@ -60,6 +66,9 @@ namespace Game
             _rigidbody.velocity = transform.rotation * new Vector3(0f, speed, 0f);
         }
 
+        /// <summary>
+        /// Init must be called after spawn to correctly finish initialization
+        /// </summary>
         public void Init(float speed, float lifetime, float damage)
         {
             Init(speed);
@@ -99,6 +108,8 @@ namespace Game
         {
             if (this.enabled)
             {
+                // Trigger expire event
+                onExpire.Invoke(this);
                 // TODO: Play Sound & VFX
                 this.enabled = false;
                 // Schedule release/destruction
@@ -128,12 +139,12 @@ namespace Game
             // For this reason maximum range is calculated based on lifetime
             // However it could be based on traveled distance:
             // distanceTraveled += _rigidbody.velocity.magnitude * Time.deltaTime;
-            age += Time.deltaTime;
             if (age >= lifetime)
             {
                 // Kill projectile
                 Expire();
             }
+            age += Time.deltaTime;
         }
 
         public Component AsComponent()

@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Game
 {
     [SelectionBase]
+    [DisallowMultipleComponent]
     public class ProjectileSpawner : MonoBehaviour
     {
         #region Inspector
@@ -19,12 +20,17 @@ namespace Game
         #endregion
 
         /// <summary>
+        /// World space position of projectile spawn point
+        /// </summary>
+        public Vector3 SpawnPosition => transform.TransformPoint(spawnPoint);
+
+        /// <summary>
         /// Fire projectile towards target position
         /// </summary>
         public void Fire(Vector3 targetPosition)
         {
             // Calculate position and rotation of projectile
-            Vector3 position = transform.TransformPoint(spawnPoint);
+            Vector3 position = this.SpawnPosition;
             Vector3 direction = targetPosition - position;
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
             // Projectile should expire in target position, so calculate lifetime from speed and distance
@@ -40,7 +46,7 @@ namespace Game
         {
             // Spawn point gizmo
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.TransformPoint(spawnPoint), 0.1f);
+            Gizmos.DrawWireSphere(this.SpawnPosition, 0.1f);
         }
     }
 }
