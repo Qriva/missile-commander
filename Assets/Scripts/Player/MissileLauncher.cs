@@ -13,9 +13,9 @@ namespace Game
         public Health health;
         [Header("Launcher Settings")]
         [Range(0.02f, 3f)]
-        [SerializeField] private float reloadTime = 1f;
+        public float reloadTime = 1f;
         [Range(1, 50)]
-        [SerializeField] private int ammoCapacity = 10;
+        public int ammoCapacity = 10;
         [ReadOnly]
         [SerializeField] private float currentReload = 0f;
         [ReadOnly]

@@ -20,6 +20,15 @@ namespace Game
         private int poolId;
         private float age = 0f;
 
+        private void Reset()
+        {
+            // Default setup
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.isKinematic = true;
+            Collider2D col = GetComponent<Collider2D>();
+            col.isTrigger = true;
+        }
+
         private void OnValidate()
         {
             // Cache inversed duration, to avoid division every frame
@@ -39,6 +48,20 @@ namespace Game
                 Expire();
             }
             age += Time.deltaTime;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            // Try to find hitbox to deal damage
+            if (Hitbox.Find(other, out Hitbox hitbox))
+            {
+                // Reuse damage event
+                DamageEvent damageEvent = DamageEvent.GetInstance(damage, this.gameObject, hitbox.Health);
+                // Deal damage to hitbox
+                hitbox.Damage(damageEvent);
+                // Return damage event
+                DamageEvent.ReturnInstance(damageEvent);
+            }
         }
 
         private void Expire()

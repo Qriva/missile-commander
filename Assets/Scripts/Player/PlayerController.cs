@@ -20,10 +20,21 @@ namespace Game
         private Transform crosshair;
         private Vector2 crosshairScreenPosition;
         private Vector2 crosshairMoveDelta;
+        private Plane gamePlane = new Plane(Vector3.forward, Vector3.zero);
+
         /// <summary>
         /// True when fire action should be performed
         /// </summary>
         private bool fireEnabled = false;
+
+        private void Awake()
+        {
+            // Initialize events of initial launchers
+            for (int i = 0; i < missileLaunchers.Count; i++)
+            {
+                missileLaunchers[i].health.OnDeath += HandleMissileLauncherDestruction;
+            }
+        }
 
         void OnEnable()
         {
@@ -57,10 +68,8 @@ namespace Game
             // Camera.ScreenToWorldPoint could be used here, but it might work wrong if camera is set Perspective
             // Casting ray on plane should return always correct values even if camera is tilted
             Ray ray = cam.ScreenPointToRay(crosshairScreenPosition);
-            // TODO: cache plane or retrive from other component
-            Plane plane = new Plane(Vector3.forward, Vector3.zero);
             // Update crosshair position
-            if (plane.Raycast(ray, out float distance))
+            if (gamePlane.Raycast(ray, out float distance))
             {
                 // NOTE: Target point must be updated early, so other systems don't lag
                 crosshair.transform.position = ray.GetPoint(distance);
@@ -80,6 +89,11 @@ namespace Game
                     launcher.Fire(crosshair.position);
                 }
             }
+        }
+
+        internal void SetGamePlane(Plane plane)
+        {
+            gamePlane = plane;
         }
 
         /// <summary>

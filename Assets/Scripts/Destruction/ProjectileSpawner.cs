@@ -29,8 +29,14 @@ namespace Game
         /// </summary>
         public void Fire(Vector3 targetPosition)
         {
+            // Fallback spawn position to component value
+            Fire(targetPosition, this.SpawnPosition);
+        }
+
+        public void Fire(Vector3 targetPosition, Vector3 startPosition)
+        {
             // Calculate position and rotation of projectile
-            Vector3 position = this.SpawnPosition;
+            Vector3 position = startPosition;
             Vector3 direction = targetPosition - position;
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction);
             // Projectile should expire in target position, so calculate lifetime from speed and distance
