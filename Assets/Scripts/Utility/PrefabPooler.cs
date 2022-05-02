@@ -99,6 +99,7 @@ namespace Game
         }
     }
 
+    // IMPROVEMENT: Actually this interface could be changed into abstract class
     /// <summary>
     /// Interface meant to be used by components that should be poolable by PrefabPooler
     /// </summary>

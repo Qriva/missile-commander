@@ -15,7 +15,7 @@ namespace Game
 
         public void SpawnExplosion(float damage)
         {
-            Explosion e = PrefabPooler.Instance.Spawn(explosion, transform.position, Quaternion.identity, null);
+            Explosion e = PrefabPooler.Instance.Spawn(explosion, transform.position, Quaternion.identity, this.transform.parent);
             e.Init(damage);
         }
 

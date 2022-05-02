@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +16,10 @@ namespace Game
         public event System.Action<DamageEvent> OnDamaged;
         public event System.Action<DeathEvent> OnDeath;
         public event System.Action<HealEvent> OnHealed;
-        // TODO: Make method to register hitboxes
-        [System.NonSerialized]
-        public List<Hitbox> hitboxes = new List<Hitbox>();
+        /// <summary>
+        /// List of hitboxes registered to health component
+        /// </summary>
+        private List<Hitbox> hitboxes = new List<Hitbox>();
 
         public bool IsDead
         {
@@ -46,6 +48,11 @@ namespace Game
             }
         }
 #endif
+
+        internal void RegisterHitbox(Hitbox hitbox)
+        {
+            this.hitboxes.Add(hitbox);
+        }
 
         public void TakeDamage(DamageEvent damageEvent)
         {

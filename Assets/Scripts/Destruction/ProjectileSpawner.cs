@@ -27,13 +27,13 @@ namespace Game
         /// <summary>
         /// Fire projectile towards target position
         /// </summary>
-        public void Fire(Vector3 targetPosition)
+        public void Fire(Vector3 targetPosition, Transform parent = null)
         {
             // Fallback spawn position to component value
-            Fire(targetPosition, this.SpawnPosition);
+            Fire(targetPosition, this.SpawnPosition, parent);
         }
 
-        public void Fire(Vector3 targetPosition, Vector3 startPosition)
+        public void Fire(Vector3 targetPosition, Vector3 startPosition, Transform parent = null)
         {
             // Calculate position and rotation of projectile
             Vector3 position = startPosition;
@@ -44,7 +44,7 @@ namespace Game
 
             // IMPROVEMENT: It might be good idea to set current (parent) scene for projectile
             // Spawn and initialize projectile
-            Projectile p = PrefabPooler.Instance.Spawn(projectile, position, rotation, null);
+            Projectile p = PrefabPooler.Instance.Spawn(projectile, position, rotation, parent);
             p.Init(speed, lifetime, damage);
         }
 

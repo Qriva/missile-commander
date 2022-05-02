@@ -33,7 +33,7 @@ namespace Game
             // Validate and register hitbox
             if (health != null)
             {
-                health.hitboxes.Add(this);
+                health.RegisterHitbox(this);
             }
             else
             {

@@ -12,7 +12,7 @@ namespace Game
     public class Projectile : MonoBehaviour, IPoolable
     {
         [System.Serializable]
-        public class ExpireEvent : UnityEvent<Projectile> {}
+        public class ProjectileEvent : UnityEvent<Projectile> {}
         
         #region Inspector
         [SerializeField] private Rigidbody2D _rigidbody;
@@ -22,10 +22,13 @@ namespace Game
         [SerializeField] private float lifetime = float.PositiveInfinity;
         [Tooltip("Interaction mask determines what objects can be hit")]
         [SerializeField] private InteractionMask mask;
+        [Tooltip("Renderer to hide when projectile expires")]
+        [SerializeField] private Renderer visualElement;
         [SerializeField] private bool delayDestruction = false;
         [SerializeField] private Yields.Instruction delay = Yields.Instruction.WaitForOneSecond;
         [Space]
-        public ExpireEvent onExpire;
+        public ProjectileEvent onExpire;
+        public ProjectileEvent onRestore;
         #endregion
 
         private float age;
@@ -48,6 +51,7 @@ namespace Game
             // _collider.enabled = true;
             _rigidbody.simulated = true;
             // _rigidbody.isKinematic = false;
+            this.visualElement.enabled = true;
         }
 
         private void OnDisable()
@@ -56,11 +60,11 @@ namespace Game
             // Ignore collisions and simulation
             _rigidbody.simulated = false;
             // _rigidbody.isKinematic = true;
+            this.visualElement.enabled = false;
         }
 
         protected void Init(float speed)
         {
-            // TODO: Is Interaction mask needed at all?
             Debug.Assert(mask != null, "Interaction mask is null", this.gameObject);
             // Set velocity along direction
             _rigidbody.velocity = transform.rotation * new Vector3(0f, speed, 0f);
@@ -107,7 +111,6 @@ namespace Game
             {
                 // Trigger expire event
                 onExpire.Invoke(this);
-                // TODO: Play Sound & VFX
                 this.enabled = false;
                 // Schedule release/destruction
                 if (delayDestruction)
@@ -154,6 +157,7 @@ namespace Game
             this.age = 0f;
             this._rigidbody.velocity = Vector2.zero;
             this.enabled = true;
+            this.onRestore.Invoke(this);
         }
 
         public void SetPoolerId(int id)
