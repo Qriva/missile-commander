@@ -45,3 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persistOnSceneLoad: 1
+  componentsToPrewarm:
+  - {fileID: 3630309249358075523, guid: 100a6ff8a48a7824c8c0d49654463dd8, type: 3}
+  - {fileID: 902721190644341565, guid: 818026a4d5d443d43add7f957eab75a1, type: 3}
+  - {fileID: 3630309249358075523, guid: 9304815f4ae4f9a4a8bf439c99a0002a, type: 3}
+  - {fileID: 902721190644341565, guid: 39c375cf1cc09ea4a86360c99d728abb, type: 3}
+  prewarmCount: 8
