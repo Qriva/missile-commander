@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Upgrades;
 
 namespace Game
 {
@@ -22,6 +23,8 @@ namespace Game
         [SerializeField] private int currentAmmo = 10;
         #endregion
 
+        // IMPROVEMENT: Create custom inspector with list of upgrades for debugging
+        private List<MissileLauncherUpgrade> upgrades = new List<MissileLauncherUpgrade>(8);
         // Lanucher is ready when there is any ammo and it's reloaded
         public bool IsReadyToFire => currentAmmo > 0 && currentReload >= reloadTime;
         /// <summary>
@@ -74,6 +77,18 @@ namespace Game
                 return true;
             }
             return false;
+        }
+
+        public void AddUpgrade(MissileLauncherUpgrade upgrade)
+        {
+            this.upgrades.Add(upgrade);
+            upgrade.OnAttach(this);
+        }
+
+        public void RemoveUpgrade(MissileLauncherUpgrade upgrade)
+        {
+            upgrade.OnDettach(this);
+            this.upgrades.Remove(upgrade);
         }
     }
 }
