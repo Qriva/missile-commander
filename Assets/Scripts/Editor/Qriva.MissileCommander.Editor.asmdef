@@ -1,0 +1,18 @@
+{
+    "name": "Qriva.MissileCommander.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:279fb926792fc9f42beeb769993d3ca5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
