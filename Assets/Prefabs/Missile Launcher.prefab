@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 2509785264718391628}
+  cost: 15
   spawner: {fileID: 2509785264718391631}
   reloadTime: 1
   ammoCapacity: 10

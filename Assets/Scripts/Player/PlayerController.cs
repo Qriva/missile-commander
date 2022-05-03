@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Game
 {
@@ -44,6 +43,7 @@ namespace Game
         /// True when fire action should be performed
         /// </summary>
         private bool fireEnabled = false;
+        public int Funds => this.funds;
 
         private void Awake()
         {
@@ -100,6 +100,12 @@ namespace Game
             {
                 funds += moneyStructures[i].moneyGeneration;
             }
+            fundsUI.text = funds.ToString();
+        }
+
+        public void ReduceFunds(int value)
+        {
+            funds -= value;
             fundsUI.text = funds.ToString();
         }
 

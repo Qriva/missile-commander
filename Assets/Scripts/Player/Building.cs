@@ -7,6 +7,9 @@ namespace Game
     public abstract class Building : MonoBehaviour
     {
         public Health health;
+        [Space]
+        [Tooltip("Building cost")]
+        public int cost = 10;
 
         protected void Awake()
         {
